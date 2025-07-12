@@ -1,19 +1,35 @@
-import { NoteTag } from '@/types/note';
-import NotesClient from './Notes.client';
-import { fetchNotes } from '@/lib/api';
+import { Metadata } from 'next';
 
-interface NotesPageProps {
-  params: Promise<{ slug?: string[] }>;
-}
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug?: string[] };
+}): Promise<Metadata> {
+  const tag = params.slug?.[0];
+  const initialTag = tag
+    ? tag?.charAt(0).toUpperCase() + tag?.slice(1).toLowerCase()
+    : '';
 
-export default async function NotesPage({ params }: NotesPageProps) {
-  const { slug } = await params;
-  const initialTag = slug?.[0];
-  const tag =
-    initialTag && initialTag.toLowerCase() !== 'all'
-      ? (initialTag as NoteTag)
-      : undefined;
-  const notesData = await fetchNotes({ tag });
+  const metaTitle = tag
+    ? `Notes tagged with "${initialTag}" | NoteHub`
+    : 'All Notes | NoteHub';
 
-  return <NotesClient initialData={notesData} tag={tag} />;
+  const metaDescription = tag
+    ? `Look through notes tagged as "${initialTag}" on NoteHub.`
+    : 'Look through all notes on NoteHub.';
+
+  const metaUrl = tag
+    ? `https://08-zustand-three-ecru.vercel.app/notes/filter/${tag}`
+    : 'https://08-zustand-three-ecru.vercel.app/notes/filter/all';
+
+  return {
+    title: metaTitle,
+    description: metaDescription,
+    openGraph: {
+      title: metaTitle,
+      description: metaDescription,
+      url: metaUrl,
+      images: ['https://ac.goit.global/fullstack/react/notehub-og-meta.jpg'],
+    },
+  };
 }

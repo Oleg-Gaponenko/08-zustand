@@ -12,8 +12,7 @@ import Loader from '../../../../components/Loader/Loader';
 import ErrorMessage from '../../../../components/ErrorMessage/ErrorMessage';
 import AbsentDataMessage from '../../../../components/AbsentDataMessage/AbsentDataMessage';
 import { NoteTag } from '@/types/note';
-import Modal from '@/components/Modal/Modal';
-import NoteForm from '@/components/NoteForm/NoteForm';
+import Link from 'next/link';
 
 interface NotesClientProps {
   initialData: NoteHubResponse;
@@ -24,7 +23,6 @@ export default function NotesClient({ initialData, tag }: NotesClientProps) {
   const [searchNote, setSearchNote] = useState('');
   const [debouncedSearch] = useDebounce(searchNote, 500);
   const [currentPage, setCurrentPage] = useState(1);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const notesPerPage = 12;
 
   const { data, isLoading, isError, error } = useQuery<NoteHubResponse, Error>({
@@ -59,21 +57,15 @@ export default function NotesClient({ initialData, tag }: NotesClientProps) {
             totalPages={data.totalPages}
           />
         )}
-        <button className={css.button} onClick={() => setIsModalOpen(true)}>
+        <Link href={'/notes/action/create'} className={css.button}>
           Create note +
-        </button>
+        </Link>
       </header>
       {isLoading && <Loader />}
       {isError && error && <ErrorMessage message={error.message} />}
       {data && data?.notes.length > 0 && <NoteList notes={data.notes} />}
       {!isLoading && !isError && data && data?.notes.length === 0 && (
         <AbsentDataMessage />
-      )}
-
-      {isModalOpen && (
-        <Modal onClose={() => setIsModalOpen(false)}>
-          <NoteForm onCancel={() => setIsModalOpen(false)} />
-        </Modal>
       )}
     </div>
   );

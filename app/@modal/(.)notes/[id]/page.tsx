@@ -1,5 +1,5 @@
 import { fetchNoteById } from '@/lib/api';
-import NotFound from '@/app/not-found';
+import { notFound } from 'next/navigation';
 import {
   HydrationBoundary,
   dehydrate,
@@ -15,7 +15,7 @@ export default async function NoteModalPage({ params }: NoteModalPageProps) {
   const { id } = await params;
   const noteId = Number(id);
 
-  if (isNaN(noteId)) return <NotFound />;
+  if (isNaN(noteId)) return notFound();
 
   const queryClient = new QueryClient();
 
