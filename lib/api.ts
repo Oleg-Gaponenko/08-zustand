@@ -31,7 +31,6 @@ const instance = axios.create({
 });
 
 function handleError(error: unknown, errorMessage: string): never {
-  console.error('AXIOS ERROR:', error); 
   if (axios.isAxiosError(error)) {
     const message = error.response?.data?.message || error.message;
     throw new Error(`${errorMessage}: ${message}`);
