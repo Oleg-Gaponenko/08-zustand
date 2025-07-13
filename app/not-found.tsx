@@ -9,7 +9,12 @@ export const metadata: Metadata = {
     description: 'Oops! It seems the page you are looking for does not exist.',
     url: 'https://08-zustand-three-ecru.vercel.app/404',
     images: [
-      'https://dfrreq9ujwfc9kld.public.blob.vercel-storage.com/not-found.png',
+      {
+        url: 'https://dfrreq9ujwfc9kld.public.blob.vercel-storage.com/not-found.png',
+        width: 1200,
+        height: 630,
+        alt: 'A preview image of error 404 - page not found',
+      },
     ],
   },
 };

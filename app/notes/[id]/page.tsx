@@ -26,7 +26,14 @@ export async function generateMetadata({
         title: `${note.title} | NoteHub`,
         description: note.content?.slice(0, 150) || 'Note details from NoteHub',
         url: `https://08-zustand-three-ecru.vercel.app/notes/${noteId}`,
-        images: ['https://ac.goit.global/fullstack/react/notehub-og-meta.jpg'],
+        images: [
+          {
+            url: 'https://ac.goit.global/fullstack/react/notehub-og-meta.jpg',
+            width: 1200,
+            height: 630,
+            alt: note.title,
+          },
+        ],
       },
     };
   } catch {
