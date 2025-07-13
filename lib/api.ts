@@ -46,6 +46,7 @@ export async function fetchNotes({
   tag,
 }: NoteHubParams): Promise<NoteHubResponse> {
   try {
+    console.log('NOTEHUB TOKEN:', process.env.NEXT_PUBLIC_NOTEHUB_TOKEN);
     const params: Record<string, string | number> = {
       page,
       perPage,
