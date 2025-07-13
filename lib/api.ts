@@ -31,6 +31,7 @@ const instance = axios.create({
 });
 
 function handleError(error: unknown, errorMessage: string): never {
+  console.error('AXIOS ERROR:', error); 
   if (axios.isAxiosError(error)) {
     const message = error.response?.data?.message || error.message;
     throw new Error(`${errorMessage}: ${message}`);
@@ -46,7 +47,6 @@ export async function fetchNotes({
   tag,
 }: NoteHubParams): Promise<NoteHubResponse> {
   try {
-    console.log('NOTEHUB TOKEN:', process.env.NEXT_PUBLIC_NOTEHUB_TOKEN);
     const params: Record<string, string | number> = {
       page,
       perPage,
